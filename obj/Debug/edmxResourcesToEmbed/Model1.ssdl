@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KUTUPHANEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TBLAVERAGE_NOTE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="BookID" Type="int" />
+    <Property Name="Point" Type="decimal" Precision="2" Scale="1" />
+  </EntityType>
+  <EntityType Name="TBLAVERAGE_SCORE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookID" Type="int" />
+    <Property Name="AverageStar" Type="decimal" Precision="2" Scale="1" Nullable="false" />
+    <Property Name="VotePiece" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TBLDUYURU">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Duyuru" Type="varchar" MaxLength="300" />
+    <Property Name="LastDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TBLHATA">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Message" Type="nchar" MaxLength="2000" />
+    <Property Name="LastDate" Type="date" />
+  </EntityType>
+  <EntityType Name="TBLKİTAPLAR">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="WriterName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Publisher" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PageNumber" Type="int" Nullable="false" />
+    <Property Name="Barkod" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="İsActivite" Type="bit" Nullable="false" />
+    <Property Name="BookPiece" Type="int" />
+  </EntityType>
+  <EntityType Name="TBLSECİLEN_KİTAPLAR">
+    <Key>
+      <PropertyRef Name="SecilenID" />
+    </Key>
+    <Property Name="SecilenID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="BookID" Type="int" />
+  </EntityType>
+  <EntityType Name="TBLUSER">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="YetkiID" Type="smallint" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="25" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="Name" Type="varchar" MaxLength="25" />
+    <Property Name="Surname" Type="varchar" MaxLength="25" />
+    <Property Name="TC" Type="varchar" MaxLength="11" />
+    <Property Name="Fotograf" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="TBLYETKİLER">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="smallint" Nullable="false" />
+    <Property Name="Yetki" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <Association Name="FK_TBLAVERAGE_NOTE_TBLKİTAPLAR">
+    <End Role="TBLKİTAPLAR" Type="Self.TBLKİTAPLAR" Multiplicity="0..1" />
+    <End Role="TBLAVERAGE_NOTE" Type="Self.TBLAVERAGE_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKİTAPLAR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLAVERAGE_NOTE">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLAVERAGE_NOTE_TBLUSER">
+    <End Role="TBLUSER" Type="Self.TBLUSER" Multiplicity="0..1" />
+    <End Role="TBLAVERAGE_NOTE" Type="Self.TBLAVERAGE_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLUSER">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="TBLAVERAGE_NOTE">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLAVERAGE_SCORE_TBLKİTAPLAR">
+    <End Role="TBLKİTAPLAR" Type="Self.TBLKİTAPLAR" Multiplicity="0..1" />
+    <End Role="TBLAVERAGE_SCORE" Type="Self.TBLAVERAGE_SCORE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKİTAPLAR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLAVERAGE_SCORE">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR">
+    <End Role="TBLKİTAPLAR" Type="Self.TBLKİTAPLAR" Multiplicity="0..1" />
+    <End Role="TBLSECİLEN_KİTAPLAR" Type="Self.TBLSECİLEN_KİTAPLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKİTAPLAR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLSECİLEN_KİTAPLAR">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSECİLEN_KİTAPLAR_TBLUSER">
+    <End Role="TBLUSER" Type="Self.TBLUSER" Multiplicity="0..1" />
+    <End Role="TBLSECİLEN_KİTAPLAR" Type="Self.TBLSECİLEN_KİTAPLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLUSER">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="TBLSECİLEN_KİTAPLAR">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLUSER_TBLYETKİLER">
+    <End Role="TBLYETKİLER" Type="Self.TBLYETKİLER" Multiplicity="1" />
+    <End Role="TBLUSER" Type="Self.TBLUSER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLYETKİLER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLUSER">
+        <PropertyRef Name="YetkiID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="KUTUPHANEModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLAVERAGE_NOTE" EntityType="Self.TBLAVERAGE_NOTE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLAVERAGE_SCORE" EntityType="Self.TBLAVERAGE_SCORE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLDUYURU" EntityType="Self.TBLDUYURU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLHATA" EntityType="Self.TBLHATA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLKİTAPLAR" EntityType="Self.TBLKİTAPLAR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLSECİLEN_KİTAPLAR" EntityType="Self.TBLSECİLEN_KİTAPLAR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLUSER" EntityType="Self.TBLUSER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBLYETKİLER" EntityType="Self.TBLYETKİLER" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TBLAVERAGE_NOTE_TBLKİTAPLAR" Association="Self.FK_TBLAVERAGE_NOTE_TBLKİTAPLAR">
+      <End Role="TBLKİTAPLAR" EntitySet="TBLKİTAPLAR" />
+      <End Role="TBLAVERAGE_NOTE" EntitySet="TBLAVERAGE_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLAVERAGE_NOTE_TBLUSER" Association="Self.FK_TBLAVERAGE_NOTE_TBLUSER">
+      <End Role="TBLUSER" EntitySet="TBLUSER" />
+      <End Role="TBLAVERAGE_NOTE" EntitySet="TBLAVERAGE_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLAVERAGE_SCORE_TBLKİTAPLAR" Association="Self.FK_TBLAVERAGE_SCORE_TBLKİTAPLAR">
+      <End Role="TBLKİTAPLAR" EntitySet="TBLKİTAPLAR" />
+      <End Role="TBLAVERAGE_SCORE" EntitySet="TBLAVERAGE_SCORE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR" Association="Self.FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR">
+      <End Role="TBLKİTAPLAR" EntitySet="TBLKİTAPLAR" />
+      <End Role="TBLSECİLEN_KİTAPLAR" EntitySet="TBLSECİLEN_KİTAPLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSECİLEN_KİTAPLAR_TBLUSER" Association="Self.FK_TBLSECİLEN_KİTAPLAR_TBLUSER">
+      <End Role="TBLUSER" EntitySet="TBLUSER" />
+      <End Role="TBLSECİLEN_KİTAPLAR" EntitySet="TBLSECİLEN_KİTAPLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLUSER_TBLYETKİLER" Association="Self.FK_TBLUSER_TBLYETKİLER">
+      <End Role="TBLYETKİLER" EntitySet="TBLYETKİLER" />
+      <End Role="TBLUSER" EntitySet="TBLUSER" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

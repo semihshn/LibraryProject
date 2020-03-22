@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KUTUPHANEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TBLDUYURU">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Duyuru" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="LastDate" Type="DateTime" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TBLKİTAPLAR">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="WriterName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Publisher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PageNumber" Type="Int32" Nullable="false" />
+    <Property Name="Barkod" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="TBLSECİLEN_KİTAPLAR" Relationship="Self.FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR" FromRole="TBLKİTAPLAR" ToRole="TBLSECİLEN_KİTAPLAR" />
+    <Property Name="İsActivite" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="TBLAVERAGE_SCORE" Relationship="KUTUPHANEModel.FK_TBLAVERAGE_SCORE_TBLKİTAPLAR" FromRole="TBLKİTAPLAR" ToRole="TBLAVERAGE_SCORE" />
+    <Property Name="BookPiece" Type="Int32" />
+    <NavigationProperty Name="TBLAVERAGE_NOTE" Relationship="KUTUPHANEModel.FK_TBLAVERAGE_NOTE_TBLKİTAPLAR" FromRole="TBLKİTAPLAR" ToRole="TBLAVERAGE_NOTE" />
+  </EntityType>
+  <EntityType Name="TBLSECİLEN_KİTAPLAR">
+    <Key>
+      <PropertyRef Name="SecilenID" />
+    </Key>
+    <Property Name="SecilenID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="BookID" Type="Int32" />
+    <NavigationProperty Name="TBLKİTAPLAR" Relationship="Self.FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR" FromRole="TBLSECİLEN_KİTAPLAR" ToRole="TBLKİTAPLAR" />
+    <NavigationProperty Name="TBLUSER" Relationship="Self.FK_TBLSECİLEN_KİTAPLAR_TBLUSER" FromRole="TBLSECİLEN_KİTAPLAR" ToRole="TBLUSER" />
+  </EntityType>
+  <EntityType Name="TBLUSER">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="YetkiID" Type="Int16" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Surname" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="TC" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="Fotograf" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TBLSECİLEN_KİTAPLAR" Relationship="Self.FK_TBLSECİLEN_KİTAPLAR_TBLUSER" FromRole="TBLUSER" ToRole="TBLSECİLEN_KİTAPLAR" />
+    <NavigationProperty Name="TBLYETKİLER" Relationship="Self.FK_TBLUSER_TBLYETKİLER" FromRole="TBLUSER" ToRole="TBLYETKİLER" />
+    <NavigationProperty Name="TBLAVERAGE_NOTE" Relationship="KUTUPHANEModel.FK_TBLAVERAGE_NOTE_TBLUSER" FromRole="TBLUSER" ToRole="TBLAVERAGE_NOTE" />
+  </EntityType>
+  <EntityType Name="TBLYETKİLER">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int16" Nullable="false" />
+    <Property Name="Yetki" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TBLUSER" Relationship="Self.FK_TBLUSER_TBLYETKİLER" FromRole="TBLYETKİLER" ToRole="TBLUSER" />
+  </EntityType>
+  <Association Name="FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR">
+    <End Role="TBLKİTAPLAR" Type="Self.TBLKİTAPLAR" Multiplicity="0..1" />
+    <End Role="TBLSECİLEN_KİTAPLAR" Type="Self.TBLSECİLEN_KİTAPLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKİTAPLAR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLSECİLEN_KİTAPLAR">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLSECİLEN_KİTAPLAR_TBLUSER">
+    <End Role="TBLUSER" Type="Self.TBLUSER" Multiplicity="0..1" />
+    <End Role="TBLSECİLEN_KİTAPLAR" Type="Self.TBLSECİLEN_KİTAPLAR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLUSER">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="TBLSECİLEN_KİTAPLAR">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLUSER_TBLYETKİLER">
+    <End Role="TBLYETKİLER" Type="Self.TBLYETKİLER" Multiplicity="1" />
+    <End Role="TBLUSER" Type="Self.TBLUSER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLYETKİLER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLUSER">
+        <PropertyRef Name="YetkiID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="KUTUPHANEEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TBLDUYURU" EntityType="Self.TBLDUYURU" />
+    <EntitySet Name="TBLKİTAPLAR" EntityType="Self.TBLKİTAPLAR" />
+    <EntitySet Name="TBLSECİLEN_KİTAPLAR" EntityType="Self.TBLSECİLEN_KİTAPLAR" />
+    <EntitySet Name="TBLUSER" EntityType="Self.TBLUSER" />
+    <EntitySet Name="TBLYETKİLER" EntityType="Self.TBLYETKİLER" />
+    <AssociationSet Name="FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR" Association="Self.FK_TBLSECİLEN_KİTAPLAR_TBLKİTAPLAR">
+      <End Role="TBLKİTAPLAR" EntitySet="TBLKİTAPLAR" />
+      <End Role="TBLSECİLEN_KİTAPLAR" EntitySet="TBLSECİLEN_KİTAPLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLSECİLEN_KİTAPLAR_TBLUSER" Association="Self.FK_TBLSECİLEN_KİTAPLAR_TBLUSER">
+      <End Role="TBLUSER" EntitySet="TBLUSER" />
+      <End Role="TBLSECİLEN_KİTAPLAR" EntitySet="TBLSECİLEN_KİTAPLAR" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLUSER_TBLYETKİLER" Association="Self.FK_TBLUSER_TBLYETKİLER">
+      <End Role="TBLYETKİLER" EntitySet="TBLYETKİLER" />
+      <End Role="TBLUSER" EntitySet="TBLUSER" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(KUTUPHANEModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(KUTUPHANEModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="TBLAVERAGE_SCORE" EntityType="KUTUPHANEModel.TBLAVERAGE_SCORE" />
+    <AssociationSet Name="FK_TBLAVERAGE_SCORE_TBLKİTAPLAR" Association="KUTUPHANEModel.FK_TBLAVERAGE_SCORE_TBLKİTAPLAR">
+      <End Role="TBLKİTAPLAR" EntitySet="TBLKİTAPLAR" />
+      <End Role="TBLAVERAGE_SCORE" EntitySet="TBLAVERAGE_SCORE" />
+    </AssociationSet>
+    <EntitySet Name="TBLAVERAGE_NOTE" EntityType="KUTUPHANEModel.TBLAVERAGE_NOTE" />
+    <AssociationSet Name="FK_TBLAVERAGE_NOTE_TBLKİTAPLAR" Association="KUTUPHANEModel.FK_TBLAVERAGE_NOTE_TBLKİTAPLAR">
+      <End Role="TBLKİTAPLAR" EntitySet="TBLKİTAPLAR" />
+      <End Role="TBLAVERAGE_NOTE" EntitySet="TBLAVERAGE_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TBLAVERAGE_NOTE_TBLUSER" Association="KUTUPHANEModel.FK_TBLAVERAGE_NOTE_TBLUSER">
+      <End Role="TBLUSER" EntitySet="TBLUSER" />
+      <End Role="TBLAVERAGE_NOTE" EntitySet="TBLAVERAGE_NOTE" />
+    </AssociationSet>
+    <EntitySet Name="TBLHATA" EntityType="KUTUPHANEModel.TBLHATA" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="TBLAVERAGE_SCORE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookID" Type="Int32" />
+    <Property Name="AverageStar" Type="Decimal" Nullable="false" Precision="2" Scale="1" />
+    <Property Name="VotePiece" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TBLKİTAPLAR" Relationship="KUTUPHANEModel.FK_TBLAVERAGE_SCORE_TBLKİTAPLAR" FromRole="TBLAVERAGE_SCORE" ToRole="TBLKİTAPLAR" />
+  </EntityType>
+  <Association Name="FK_TBLAVERAGE_SCORE_TBLKİTAPLAR">
+    <End Type="KUTUPHANEModel.TBLKİTAPLAR" Role="TBLKİTAPLAR" Multiplicity="0..1" />
+    <End Type="KUTUPHANEModel.TBLAVERAGE_SCORE" Role="TBLAVERAGE_SCORE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKİTAPLAR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLAVERAGE_SCORE">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TBLAVERAGE_NOTE">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="BookID" Type="Int32" />
+    <Property Name="Point" Type="Decimal" Precision="2" Scale="1" />
+    <NavigationProperty Name="TBLKİTAPLAR" Relationship="KUTUPHANEModel.FK_TBLAVERAGE_NOTE_TBLKİTAPLAR" FromRole="TBLAVERAGE_NOTE" ToRole="TBLKİTAPLAR" />
+    <NavigationProperty Name="TBLUSER" Relationship="KUTUPHANEModel.FK_TBLAVERAGE_NOTE_TBLUSER" FromRole="TBLAVERAGE_NOTE" ToRole="TBLUSER" />
+  </EntityType>
+  <Association Name="FK_TBLAVERAGE_NOTE_TBLKİTAPLAR">
+    <End Type="KUTUPHANEModel.TBLKİTAPLAR" Role="TBLKİTAPLAR" Multiplicity="0..1" />
+    <End Type="KUTUPHANEModel.TBLAVERAGE_NOTE" Role="TBLAVERAGE_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLKİTAPLAR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TBLAVERAGE_NOTE">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TBLAVERAGE_NOTE_TBLUSER">
+    <End Type="KUTUPHANEModel.TBLUSER" Role="TBLUSER" Multiplicity="0..1" />
+    <End Type="KUTUPHANEModel.TBLAVERAGE_NOTE" Role="TBLAVERAGE_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TBLUSER">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="TBLAVERAGE_NOTE">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TBLHATA">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Message" Type="String" MaxLength="2000" FixedLength="true" Unicode="true" />
+    <Property Name="LastDate" Type="DateTime" Precision="0" />
+  </EntityType>
+</Schema>
